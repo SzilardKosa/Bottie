@@ -2,17 +2,14 @@ import { Client, MessageEmbed } from 'discord.js'
 import { emoji, random } from 'node-emoji'
 import { config } from 'dotenv'
 import Bottie from './Bottie'
-import exactMatches from './Matches'
+import matches from './Matches'
 config()
 
 const client = new Client()
 let bottie = new Bottie()
 
 // Set up Bottie
-bottie.setMatches(exactMatches, [
-  { keywords: ['who', 'favorite', 'your'], output: ['i love you'] },
-  { keywords: ['i', 'love', 'you'], output: ['i love you'] },
-])
+bottie.setMatches(matches)
 
 client.on('ready', () => {
   console.log(`${client.user!.username} has logged in.`)
@@ -27,8 +24,7 @@ client.on('message', (message) => {
   if (message.author.bot) return
   const content = message.content.trim()
   const prefix = content.substr(0, PREFIX_LENGTH)
-  const text = content.substring(PREFIX_LENGTH)
-  console.log(text)
+  const text = content.substring(PREFIX_LENGTH).trim().toLowerCase()
 
   switch (prefix) {
     case PREFIX1:
@@ -53,7 +49,44 @@ client.on('message', (message) => {
       message.channel.send(answer)
       break
     default:
-    // random eastereggs
+      // random eastereggs
+      if (content.toLowerCase().startsWith('bottie')) {
+        message.channel.send(bottie.randomReply(['Heh?', 'What?', '*confusion*', '*blushing*']))
+      }
+      if (content === 'Say hello bottie!' && message.author.username === 'Konstantin97') {
+        const embed = new MessageEmbed()
+          .setTitle('Happy Birthday Sim!!!')
+          .setColor(0xff0000)
+          .setImage('https://media1.tenor.com/images/3c65a13b27cf269245232e4c5e5a19e4/tenor.gif')
+        message.channel.send(embed)
+      }
+  }
+})
+
+// reaction - The reaction object
+// user - The user that applied the guild or reaction emoji
+client.on('messageReactionAdd', (messageReaction) => {
+  const author = messageReaction.message.author.username
+  // if its no a reaction to bottie then return
+  if (author !== 'Bottie') return
+  const reaction = messageReaction.emoji.name
+
+  switch (reaction) {
+    case '👍':
+      messageReaction.message.channel.send('https://tenor.com/view/wally-wall-e-gif-8866061')
+      break
+    case '❤️':
+      messageReaction.message.channel.send(
+        'https://tenor.com/view/glow-in-the-dark-it-wall-e-star-gazing-gif-13616438'
+      )
+      break
+    case '🌱':
+      messageReaction.message.channel.send(
+        'https://tenor.com/view/earth-day-earth-life-hope-gif-11680085'
+      )
+      break
+    default:
+      break
   }
 })
 
