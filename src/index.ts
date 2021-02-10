@@ -50,8 +50,14 @@ client.on('message', (message) => {
       break
     default:
       // random eastereggs
-      if (content.toLowerCase().startsWith('bottie')) {
-        message.channel.send(bottie.randomReply(['Heh?', 'What?', '*confusion*', '*blushing*']))
+      if (RegExp(/help/).test(content.toLowerCase())) {
+        const reply = `
+Did i hear help?! I can help! :D
+To access bottie v1.0 start your messages with '#'.
+To access bottie v2.0 start your messages with '$'.
+        `
+        message.channel.send(reply)
+        return
       }
       if (content === 'Say hello bottie!' && message.author.username === 'Konstantin97') {
         const embed = new MessageEmbed()
@@ -59,6 +65,11 @@ client.on('message', (message) => {
           .setColor(0xff0000)
           .setImage('https://media1.tenor.com/images/3c65a13b27cf269245232e4c5e5a19e4/tenor.gif')
         message.channel.send(embed)
+        return
+      }
+      if (RegExp(/bottie/).test(content.toLowerCase())) {
+        message.channel.send(bottie.randomReply(['Heh?', 'What?', '*confusion*', '*blushing*']))
+        return
       }
   }
 })

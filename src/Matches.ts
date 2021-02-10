@@ -21,6 +21,7 @@ export const REACTION2UNKNOWN: string[] = [
   ...REACTION2YES,
 ]
 
+//TODO: flags
 const matches: Match[] = [
   // the message must be exactly the same as the input
   { input: /^😏$/, output: ['😏😏'], vip: { Konstantin97: ['😳😳'] } },
@@ -35,7 +36,7 @@ const matches: Match[] = [
   { input: /^ye*s*$/, output: REACTION2YES },
   // the message must include at least one of the inputs
   { input: /love you|cute/, output: REACTION2LOVE, vip: { Konstantin97: REACTION2HORNY } },
-  { input: /hi |hello |hey /, output: REACTION2GREETINGS },
+  { input: /hi |hello |hey |^hi$|^hello$|^hey$/, output: REACTION2GREETINGS },
   { input: /bye|see you/, output: REACTION2GOODBYE },
   { input: /🙂|🔪/, output: REACTION2THREAT },
   { input: /🍆|🍑|😉|😏/, output: REACTION2HORNY },
